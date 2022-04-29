@@ -1,0 +1,51 @@
+[
+ {
+  "distID": "1",
+  "name": "Betaboard Rocklea",
+  "address": "58 Reginald Street, 4106",
+  "phone" : "07 3375 3222",
+  "google" : "https://www.google.com/maps/place/58+Reginald+St,+Rocklea+QLD+4106/@-27.5643519,152.9948125"
+ },
+ {
+  "distID": "2",
+  "name": "Betaboard Brendale",
+  "address": "266 Leitchs Road, 4500",
+  "phone" : "07 3205 7111",
+  "google" : "https://www.google.com/maps/place/Betaboard+Brendale/@-27.3154056,152.9786773,17z/data=!3m1!4b1!4m5!3m4!1s0x6b93fce5164d709b:0x15fae4d242f6d7f6!8m2!3d-27.3154104!4d152.980866"
+ },
+ {
+  "distID": "3",
+  "name": "Betaboard Ipswich",
+  "address": "470 Warwick Road, 4305",
+  "phone" : "07 3294 0444",
+  "google" : "https://www.google.com.au/maps/place/Betaboard/@-27.6591163,152.7408592,17z/data=!3m1!4b1!4m5!3m4!1s0x6b96b5f9a00e31af:0x7b5281429275db!8m2!3d-27.6591211!4d152.7430532"
+ },
+ {
+  "distID": "4",
+  "name": "Betaboard Loganholme",
+  "address": "Unit 1, 9-13 Riverland Drive, 4129",
+  "phone" : "07 3063 9556",
+  "google" : "https://www.google.com/search?biw=1443&bih=1237&sxsrf=ALeKk02bZVl9MSv-A2drl1riFzE8blO7pg:1597884549911&ei=fcg9X-iiKoDWz7sPp-iBkAE&q=Betaboard%20Loganholme&oq=Betaboard+Loganholme&gs_lcp=CgZwc3ktYWIQAzIECCMQJ1DzN1jzN2DqOWgAcAB4AIABzAGIAYQDkgEFMC4xLjGYAQCgAQGqAQdnd3Mtd2l6wAEB&sclient=psy-ab&ved=2ahUKEwiR8fTnx6jrAhWg4XMBHUBvBHUQvS4wAHoECAsQCQ&uact=5&npsic=0&rflfq=1&rlha=0&rllag=-27624234,153094450,11675&tbm=lcl&rldimm=12123252902960671206&lqi=ChRCZXRhYm9hcmQgTG9nYW5ob2xtZSIDiAEBWiEKCWJldGFib2FyZCIUYmV0YWJvYXJkIGxvZ2FuaG9sbWU&rldoc=1&tbs=lrf:!3sIAE,lf:1,lf_ui:4&rlst=f#rldoc=1"
+ },
+ {
+  "distID": "5",
+  "name": "EmRock",
+  "address": "85 Prosperity Place, 4034",
+  "phone" : "07 3162 3164",
+  "google" : "https://www.google.com.au/maps/place/EmRock+Building+Supplies/@-27.364623,153.0423906,17z/data=!4m13!1m7!3m6!1s0x6b93e2915604e425:0xd57b90c35d0c39ef!2s85+Prosperity+Pl,+Geebung+QLD+4034!3b1!8m2!3d-27.3646278!4d153.0445846!3m4!1s0x6b93e32170524737:0xa8b5c83a511b2515!8m2!3d-27.364542!4d153.0449066"
+ },
+ {
+  "distID": "6",
+  "name": "Hume Alexandria",
+  "address": "149 Mitchell Road, 2015",
+  "phone" : "13 4863",
+  "google" : "https://www.google.com.au/maps/place/Hume+Building+Products,+Alexandria/@-33.9020122,151.1887257,17z/data=!4m13!1m7!3m6!1s0x6b12b1ca8b46ead3:0xfd15e07076b4bcec!2s149+Mitchell+Rd,+Erskineville+NSW+2043!3b1!8m2!3d-33.9020167!4d151.1909197!3m4!1s0x6b12b1cbdd99fb51:0x2ffca5fa692765dc!8m2!3d-33.9042364!4d151.1885295"
+ },
+ {
+  "distID": "7",
+  "name": "Hume Pymble",
+  "address": "14-16 Suakin Street, 2073",
+  "phone" : "13 4863",
+  "google" : ""
+ }	
+]

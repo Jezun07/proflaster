@@ -1,0 +1,153 @@
+{% comment %}
+  Product form
+
+  @param product
+
+  @param selected_variant
+{% endcomment %}
+
+{% if is_product_modal and settings.quickshop_show_dcb %}
+  {% assign quickshop_smart_buttons = true %}
+{% endif %}
+
+{% if is_product_modal == false and section.settings.show_dcb %}
+  {% assign product_smart_buttons = true %}
+{% endif %}
+
+{% if selected_variant.available == false %}
+  {% assign quickshop_smart_buttons = false %}
+  {% assign product_smart_buttons = false %}
+{% endif %}
+
+{% assign product_form_class = '' %}
+{% if product_smart_buttons or quickshop_smart_buttons %}
+  {% assign product_form_class = 'smart-payment-enabled' %}
+{% endif %}
+<div class="contact--form">
+  <ul class="enquiry--btns">
+    <li><a class="product-form--atc-button" title="Distribution Interest" href="https://campaigns.proplaster.com.au/cs/c/?cta_guid=2a553b47-01c0-43ec-b7f5-679b9fccc4a0&amp;placement_guid=d0e160bc-3807-4906-99e7-6689df0a814b&amp;portal_id=5235280&amp;canon=https%3A%2F%2Fcampaigns.proplaster.com.au%2Fmanufacturing&amp;redirect_url=APefjpEBxr4AUJPrnq3T-LOxcTeGPKfeX3W8xO75_Oe4Bq3j2LPPoujx0NKzLkTLMawxUUl2XgfMfRav51gwYM4_EhSf0Cjy2ENvDqOGvu6U-HEcCGwW4DgJiInPNs9qGzxWDqKEgOgGZLv9HUCigwp10CkEVonnZ9Cq9bIIWZbEVsaI2GWFWQvPSD48vCCwWdIbJPEox_enZH6_pZdcoCkz9GXu1YsDy2VM3HJdiF17TmgC8jdSDW36SxhAzulDGmHzbfJ1UTCmE1FCgFSP2Oztl2AzYscoeh-_yIGyeHllvaRmsEMRcgk&amp;click=0eb47bbf-87b2-439c-9340-bc58ca5bf077&amp;hsutk=d1d4dc6a89d540fdabb5dd424bc8ead8&amp;signature=AAH58kGqGqCUnnkS0OMuxUiQnfy4KEEjcw&amp;utm_referrer=https%3A%2F%2Fwww.proplaster.com.au%2F&amp;pageId=10552365123&amp;__hstc=13595048.d1d4dc6a89d540fdabb5dd424bc8ead8.1557890762797.1568095512425.1568154033612.331&amp;__hssc=13595048.21.1568154033612&amp;__hsfp=3815032048&amp;contentType=landing-page" target="_blank">DISTRIBUTION</a></li>
+    <li><a class="product-form--atc-button" title="Bulk Order" href="https://campaigns.proplaster.com.au/cs/c/?cta_guid=b04ca4ab-0676-44ff-b068-c3542c0da691&amp;placement_guid=4b06cc29-e1fc-4d59-9a05-4cda6f071c2c&amp;portal_id=5235280&amp;canon=https%3A%2F%2Fcampaigns.proplaster.com.au%2Fmanufacturing&amp;redirect_url=APefjpHM5JRaG9bEZE7n9qifyfR_WA2QZt--S5bHcaglb-hh24SRIy4KvjA17tbgc0l2s4zPE1mc-JGhxsFK8oNwzh2rPf7Va5vRZUS5S-VvDrPTDwXpzHfAYzyiTTS_M1QkReT0xVgFZTR8uzHisEWBNANsIhtIAVfUb084rd9KDdWnFTNKzfPsOKkqhgA21T7jAxW4pyhAISqzZpt5Ut9vIXyctQVfCeISJu2MkJGznFWIUs3wHUyeaCOQ_x-hz70KjAW6jOX_xdP_DdEZqLVzvK08fzL9GFMD551P3ojMnuKk6FbZs3A&amp;click=9d2df72c-8f44-435c-9632-675b59239979&amp;hsutk=d1d4dc6a89d540fdabb5dd424bc8ead8&amp;signature=AAH58kENOea-hI82xo7XXjVHhHslOF7ehg&amp;utm_referrer=https%3A%2F%2Fwww.proplaster.com.au%2F&amp;pageId=10552365123&amp;__hstc=13595048.d1d4dc6a89d540fdabb5dd424bc8ead8.1557890762797.1568095512425.1568154033612.331&amp;__hssc=13595048.21.1568154033612&amp;__hsfp=3815032048&amp;contentType=landing-page" target="_blank">BULK ORDER</a></li>
+  </ul>
+</div>
+{% form 'product', product, class: 'add--form', data-product-form: '' %}
+  {% if product.has_only_default_variant %}
+    <input
+      name="id"
+      value="{{ product.variants[0].id }}"
+      type="hidden">
+  {% else %}
+    {%
+      include 'product-options',
+      product: product,
+      selected_variant: selected_variant,
+      style: settings.product_option_style
+    %}
+  {% endif %}
+
+  {% if settings.product_show_stock_level != 'hidden'%}
+     {%
+        include 'product-stock-level',
+        container: 'product_page',
+        variant: selected_variant,
+        inventory_quantity: selected_variant.inventory_quantity
+      %}
+  {% endif %}
+  <div class="">
+      {% if product.metafields.custom_fields["product_variants"] != blank %}
+  {% assign product_refs = product.metafields.custom_fields["product_variants"] | split: "|" %}
+    <select 
+            id="product-quantity-select" onChange="window.location.href=this.value" 
+            class="form-field-input form-field-select">
+      <option value="#">{{ product.title }}</option>
+      {% for product_handle in product_refs %}
+      {% assign product_ref = all_products[product_handle] %}
+        <option value="{{ product_ref.url }}">{{ product_ref.title }}</option>
+      {% endfor %}
+    </select>
+ 
+{% endif %}
+</div>
+
+    <div class="bold_qb_grid" data-variant-id="{{ product.selected_or_first_available_variant.id }}"></div>
+    <br/>
+    <br/>
+  <div class="product-form--atc">
+    
+
+  
+    <div class="product-form--atc-qty form-fields--qty" data-quantity-wrapper>
+      <div class="form-field form-field--qty-select">
+        <div class="form-field-select-wrapper">
+          <select
+            id="product-quantity-select"
+            class="form-field-input form-field-select"
+            aria-label="{{ 'general.general.quantity' | t }}"
+            data-quantity-select
+          >
+            {% for i in (1..9) %}
+              <option {% if i == 1 %}selected {% endif %}value="{{ i }}">
+                {{ i }}
+              </option>
+            {% endfor %}
+            <option value="10+">
+              10+
+            </option>
+          </select>
+          <label
+            for="product-quantity-select"
+            class="form-field-title"
+          >
+            {{ 'general.general.quantity' | t }}
+          </label>
+          {% include 'icon-library', id: 'icon-chevron-down-small' %}
+        </div>
+  
+      </div>
+      <div class="form-field form-field--qty-input hidden">
+        <input
+          id="product-quantity-input"
+          class="form-field-input form-field-number form-field-filled"
+          value="1"
+          name="quantity"
+          type="text"
+          pattern="\d*"
+          aria-label="{{ 'general.general.quantity' | t }}"
+          data-quantity-input
+        >
+        <label
+          for="product-quantity-input"
+          class="form-field-title"
+        >
+          {{ 'general.general.quantity' | t }}
+        </label>
+      </div>
+    </div>
+
+    <button
+      class="product-form--atc-button {% unless selected_variant.available %}disabled{% endunless %}"
+      type="submit"
+      {% unless selected_variant.available %}disabled{% endunless %}
+      data-product-atc>
+      <span class="atc-button--text">
+        {% if selected_variant.available %}
+          {{ 'product.buttons.add_to_cart' | t }}
+        {% else %}
+          {{ 'product.buttons.sold_out' | t }}
+        {% endif %}
+      </span>
+      <span class="atc-button--icon">
+        {% include 'icon-library', id: 'icon-spinner' %}
+      </span>
+    </button>
+  </div>
+<p>Delivery and pick up options available at checkout.</p>
+  <p class="cart-attribute__field location__set" style="display: none;">
+    <label for="your-name">Pickup location set:</label>
+    <input id="pickup__location" type="text" name="properties[Pickup location]" value="">
+  </p>
+
+
+  {% if product_smart_buttons or quickshop_smart_buttons %}
+    {{ form | payment_button }}
+  {% endif %}
+{% endform %}

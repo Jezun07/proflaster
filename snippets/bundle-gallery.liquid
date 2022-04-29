@@ -1,0 +1,65 @@
+<div
+  class="
+    product-gallery
+    product-gallery--thumbs-{{ thumbnail_position }}
+    {% if hover_zoom != 'disabled' %}hover-zoom-enabled{% endif %}
+    {% if click_to_zoom != 'disabled' and click_to_zoom != 'mobile' %}click-to-zoom-enabled{% endif %}
+  "
+  data-product-gallery
+  {% if image_crop %}data-product-gallery-image-crop{% endif %}
+  data-product-gallery-aspect-ratio="{{ aspect_ratio }}"
+  data-product-gallery-thumbnails="{{ thumbnail_position }}"
+>
+  <div class="logo--overlay">
+    <img src="{{ product.vendor  | replace: " ", "-" | handleize | append: '.png' | prepend: 'Brand_' | file_url }}" onError="this.style.display = 'none';">
+  </div>
+  {% if thumbnail_position == 'left' %}
+    {%
+      include 'product-gallery-navigation'
+      product: product,
+      selected_media: selected_media,
+      aspect_ratio: aspect_ratio,
+      image_crop: image_crop
+    %}
+  {% endif %}
+
+  {%
+    include 'product-gallery-viewer'
+    product: product,
+    selected_media: selected_media,
+    aspect_ratio: aspect_ratio,
+    image_crop: image_crop,
+    hover_zoom: hover_zoom
+  %}
+
+  {% assign first_model = product.media | where: "media_type", "model" | first %}
+  {% if selected_media.media_type == 'model' %}
+    {% assign model = selected_media %}
+  {% else %}
+    {% assign model = first_model %}
+  {% endif %}
+  {% if model %}
+    <button
+      class="product-gallery--viewinyourspace"
+      data-default-model-id="{{ first_model.id }}"
+      data-shopify-xr
+      data-shopify-model3d-id="{{ model.id }}"
+      data-shopify-title="{{ product.title }}"
+      data-shopify-xr-hidden
+    >
+      {% include 'icon-library', id: 'icon-3D' %}
+      {{ 'product.media.view_in_your_space' | t }}
+    </button>
+  {% endif %}
+
+  {% if thumbnail_position != 'left' %}
+    {%
+      include 'product-gallery-navigation'
+      product: product,
+      selected_media: selected_media,
+      aspect_ratio: aspect_ratio,
+      image_crop: image_crop,
+      hover_zoom: hover_zoom
+    %}
+  {% endif %}
+</div>

@@ -1,0 +1,81 @@
+<article class="site-page resources" data-template-page>
+  <header class="page-masthead">
+    <h1 class="page-title">
+      {{ page.title }}
+    </h1>
+  </header>
+      <div class="page-grid"> 
+        <div class="grid-item--third">
+          <a href="{{ section.settings.url }}">
+            <img src="{{ section.settings.image | img_url: "original" }}">
+            <p>{{ section.settings.title-1 }}</p>
+          </a>
+        </div>
+        <div class="grid-item--third">
+          <a href="{{ section.settings.url-2 }}">
+            <img src="{{ section.settings.image-2 | img_url: "original" }}">
+            <p>{{ section.settings.title-2 }}</p>
+          </a>
+        </div>
+        <div class="grid-item--third">
+          <a href="{{ section.settings.url-3 }}">
+            <img src="{{ section.settings.image-3 | img_url: "original" }}">
+            <p>{{ section.settings.title-3 }}</p>
+          </a>
+        </div>
+      </div>
+</article>
+
+{% schema %}
+  {
+    "name": "Resources",
+    "settings": [
+	   {
+         "type":"image_picker",
+         "id":"image",
+         "label":"Image (1)"
+	   },
+       {
+         "type":"url",
+         "id":"url",
+         "label":"URL (1)"
+	   },
+       {
+         "type":"text",
+         "id":"title-1",
+         "label":"Title (1)"
+	   },
+       {
+         "type":"image_picker",
+         "id":"image-2",
+         "label":"Image (2)"
+	   },
+       {
+         "type":"url",
+         "id":"url-2",
+         "label":"URL (2)"
+	   },
+       {
+         "type":"text",
+         "id":"title-2",
+         "label":"Title (2)"
+	   },
+       {
+         "type" :"image_picker",
+         "id" :"image-3",
+         "label" :"Image (3)"
+	   },
+       {
+         "type":"url",
+         "id":"url-3",
+         "label":"URL (3)"
+	   },
+       {
+         "type":"text",
+         "id":"title-3",
+         "label":"Title (3)"
+	   }
+	]
+  }
+{% endschema %}
+

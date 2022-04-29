@@ -1,0 +1,595 @@
+{%- comment %}<locksmith:e558>{% endcomment -%}
+  {%- include 'locksmith' -%}
+{%- comment %}</locksmith:e558>{% endcomment -%}
+
+<!doctype html>
+<html class="no-js no-touch" lang="{{ shop.locale }}">
+  <head>
+    
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NPQ4NWG');</script>
+<!-- End Google Tag Manager -->
+    
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+	<meta name="google-site-verification" content="KUMeiMWamnHlqMQRSJa2_-tgT4ct8ccD7Qo4McqreAk" />
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {% if settings.preconnect_facebook %}
+      <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+    {% endif %}
+    {% if settings.preconnect_google %}
+      <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+    {% endif %}
+
+    <title>
+      {{- page_title -}}
+
+      {%- if current_tags -%}
+        {%- include 'advanced-tag-loop' -%}
+        {% assign title_tags = '' %}
+        {% assign meta_tags = current_tags | join: ', ' %}
+        {%- for tag in current_tags -%}
+          {% assign is_advanced_tag = false %}
+          {% assign cat = tag | split: '_' | first %}
+
+          {%- unless cat == tag -%}
+            {%- if cat_array contains cat -%}
+              {% assign is_advanced_tag = true %}
+              {% assign title_tags = title_tags | append: ', ' | append: tag | replace_first: '_', ': ' %}
+            {%- endif -%}
+          {%- endunless -%}
+
+          {%- unless is_advanced_tag -%}
+            {% assign title_tags = title_tags | append: ', ' | append: tag %}
+          {%- endunless -%}
+        {%- endfor -%}
+        {{ 'general.title.tags' | t: tags: title_tags | remove_first: ', ' }}
+      {%- endif -%}
+
+      {%- if current_page != 1 -%}
+        {{- 'general.title.page' | t: page: current_page -}}
+      {%- endif -%}
+
+      {%- unless page_title contains shop.name -%}
+        {{- 'general.title.shop' | t: shop: shop.name -}}
+      {%- endunless -%}
+    </title>
+
+    {% if page_description != blank %}
+      {%- comment %}<locksmith:5206>{% endcomment -%}
+        {%- capture var %}{% render 'locksmith-variables', variable: 'transparent', hiding_scope: 'resource' %}{% endcapture %}{% if var == 'true' %}<meta name="description" content="{{ page_description | escape }}">{% endif -%}
+        {%- comment %}original: <meta name="description" content="{{ page_description | escape }}">{%- endcomment %}
+      {%- comment %}</locksmith:5206>{% endcomment -%}
+    {% endif %}
+
+    {% include 'favicon' %}
+
+    {% if template contains 'collection' and current_tags %}
+      <meta name="robots" content="noindex" />
+      <link rel="canonical" href="{{ shop.url }}{{ collection.url }}" />
+    {% else %}
+      <link rel="canonical" href="{{ canonical_url }}" />
+    {% endif %}
+
+    <meta name="viewport" content="width=device-width">
+
+    {% assign twitter_handle = settings.social_twitter | split: 'twitter.com/' | last %}
+    {%
+      include 'social-meta-tags',
+      twitter_handle: twitter_handle
+    %}
+
+    {% assign preload_styles = settings.preload_styles %}
+
+    <link rel="preload" href="{{ settings.type_menu | font_url }}" as="font" crossorigin="anonymous">
+
+    {% if preload_styles == 'await_critical_styles' %}
+      <link rel="preload" as="style" href="{{ 'theme-critical.scss.css' | asset_url }}">
+    {% else %}
+      <link rel="preload" as="style" href="{{ 'theme.scss.css' | asset_url }}">
+      <link rel="preload" as="style" href="{{ 'theme-more.scss.css' | asset_url }}">
+    {% endif %}
+
+    {{ content_for_header }}
+    {%- render 'bold-common' -%}
+    <script>
+      document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');
+      if(window.Shopify&&window.Shopify.designMode)document.documentElement.className+=' in-theme-editor';
+      if(('ontouchstart' in window)||window.DocumentTouch&&document instanceof DocumentTouch)document.documentElement.className=document.documentElement.className.replace(/\bno-touch\b/,'has-touch');
+    </script>
+
+    <script src="{{ 'api.js' | asset_url }}"></script>
+
+    {% if preload_styles == 'await_all_styles' %}
+      <link href="{{ 'theme.scss.css' | asset_url }}" rel="stylesheet" type="text/css" media="all" />
+      <link href="{{ 'theme-more.scss.css' | asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% elsif preload_styles == 'await_critical_styles' %}
+      <link href="{{ 'theme-critical.scss.css' | asset_url }}" rel="stylesheet" type="text/css" media="all" data-styles-above-fold />
+      <link rel="preload" as="style" href="{{ 'theme.scss.css' | asset_url }}">
+      <link rel="preload" as="style" href="{{ 'theme-more.scss.css' | asset_url }}">
+    {% endif %}
+
+    {% if settings.custom_scripts_head != blank %}
+      {% unless settings.custom_scripts_head contains '<script' %}<script>{% endunless %}
+        {{ settings.custom_scripts_head }}
+      {% unless settings.custom_scripts_head contains '<script' %}</script>{% endunless %}
+    {% endif %}
+
+    {% comment %}theme-object{% endcomment %}
+    <script>
+      window.Theme = window.Theme || {};
+      window.Theme.routes = {
+        "root_url": "{{ routes.root_url }}",
+        "account_url": "{{ routes.account_url }}",
+        "account_login_url": "{{ routes.account_login_url }}",
+        "account_logout_url": "{{ routes.account_logout_url }}",
+        "account_register_url": "{{ routes.account_register_url }}",
+        "account_addresses_url": "{{ routes.account_addresses_url }}",
+        "collections_url": "{{ routes.collections_url }}",
+        "all_products_collection_url": "{{ routes.all_products_collection_url }}",
+        "search_url": "{{ routes.search_url }}",
+        "cart_url": "{{ routes.cart_url }}",
+        "cart_add_url": "{{ routes.cart_add_url }}",
+        "cart_change_url": "{{ routes.cart_change_url }}",
+        "cart_clear_url": "{{ routes.cart_clear_url }}",
+        "product_recommendations_url": "{{ routes.product_recommendations_url }}",
+      };
+    </script>
+    
+    <!-- Google Ads Remarketing Tag By Dynamic Creative START -->
+
+    {% assign dc_google_ads_audience_tag_id = 1040735558 %}
+    {% assign dc_product_id_alpha2_code = 'AU' %}
+    {% assign dc_prices_with_decimal_separator = true %}
+    {% assign dc_product_id = 'default' %}
+
+    <!-- Global site tag (gtag.js) - Ads. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-{{ dc_google_ads_audience_tag_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-{{ dc_google_ads_audience_tag_id }}');
+    </script>
+    <!-- Global site tag (gtag.js) - Ads. -->
+    {% if dc_prices_with_decimal_separator == true %}
+        {% if template contains 'product' %}
+            {% assign dc_product_price = product.selected_or_first_available_variant.price | money_without_currency | remove:',' %}
+        {% elsif template contains 'cart' %}
+            {% assign dc_product_price = cart.total_price | money_without_currency | remove:',' %}
+        {% endif %}
+    {% else %}
+        {% if template contains 'product' %}
+            {% assign dc_product_price = product.selected_or_first_available_variant.price | money_without_currency | remove:'.' | replace: ',', '.' %}
+        {% elsif template contains 'cart' %}
+            {% assign dc_product_price = cart.total_price | money_without_currency | remove:'.' | replace: ',', '.' %}
+        {% endif %}
+    {% endif %}
+
+    {% if template contains 'collection' %}
+        {% assign dc_event = 'view_item_list' %}
+    {% elsif template contains 'product' %}
+        {% assign dc_event = 'view_item' %}
+    {% elsif template contains 'search' %}
+        {% assign dc_event = 'view_search_results' %}
+    {% elsif template contains 'cart' %}
+        {% assign dc_event = 'add_to_cart' %}
+    {% elsif template contains 'index' %}
+        {% assign dc_event = 'home' %}
+    {% else %}
+        {% assign dc_event = 'other' %}
+    {% endif %}
+
+    <script>
+      gtag('event', '{{ dc_event }}', {
+        'send_to': 'AW-{{ dc_google_ads_audience_tag_id }}'{% if template contains 'product' or template contains 'cart' %},{% endif %}
+        {% if template contains 'product' or template contains 'cart' %}'value': {{ dc_product_price }},{% endif %}
+        {% if template contains 'product' %}
+        'items': [{
+            {% if dc_product_id == 'default' %}
+                'id': 'shopify_{{ dc_product_id_alpha2_code }}_{{ product.id }}_{% if product.selected_or_first_available_variant.id %}{{ product.selected_or_first_available_variant.id }}{% else %}{{ product.selected_or_first_available_variant.id }}{% endif %}',
+            {% elsif dc_product_id == 'product_id' %}
+                'id': '{% if product.selected_or_first_available_variant.id %}{{ product.selected_or_first_available_variant.id }}{% else %}{{ product.selected_or_first_available_variant.id }}{% endif %}',
+            {% elsif dc_product_id == 'parent_id' %}
+                'id': '{{ product.id }}',
+            {% elsif dc_product_id == 'sku' %}
+                'id': '{% if product.selected_or_first_available_variant.id %}{{ product.selected_or_first_available_variant.sku }}'{% else %}{{ product.selected_or_first_available_variant.sku }}'{% endif %}',
+            {% endif %}
+          'google_business_vertical': 'retail'
+        }]
+        {% elsif template contains 'cart' %}
+            'items': [
+            {% for item in cart.items %}
+            {
+                {% if dc_product_id == 'default' %}
+                    'id': 'shopify_{{ dc_product_id_alpha2_code }}_{{ item.product_id }}_{{ item.variant_id }}',
+                {% elsif dc_product_id == 'product_id' %}
+                    'id': '{{ item.variant_id }}',
+                {% elsif dc_product_id == 'parent_id' %}
+                    'id': '{{ item.product_id }}',
+                {% elsif dc_product_id == 'sku' %}
+                    'id': '{{ item.sku }}',
+                {% endif %}
+                    'google_business_vertical': 'retail'
+                }
+                {% if forloop.last == false %}
+                    ,
+                {% endif %}
+            {% endfor %}
+            ]
+        {% endif %}
+      });
+    </script>
+    <!-- Google Ads Remarketing Tag By Dynamic Creative END -->
+    <!-- Hotjar Tracking Code for www.proplaster.com.au -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1971591,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+  
+
+  {% include 'hulkcode_common' %}{% if template contains 'product' or template contains 'cart' %}<script src='https://volumediscount.hulkapps.com/api/v2/frontend/hulkcode.js' defer='defer'></script>{% endif %}
+  
+  <!-- Dynamic Creative - Dynamic Remarketing - Version 1.1 START -->
+<!-- CODE SETTINGS START -->
+
+<!-- Please add your alpha2 code, you can find it here: https://help.shopify.com/en/api/custom-storefronts/storefront-api/reference/enum/countrycode -->
+{% assign dc_product_id_alpha2_code = 'AU' %}
+
+<!-- if you have prices such as 1,000.00 set below to true, if you have prices such as 1.000,00 set below to false -->
+{% assign dc_prices_with_decimal_separator = true %}
+
+<!-- 
+set your product id values are default, product_id, parent_id, sku
+1. If it looks like shopify_US_81191654332_1055121650148, then keep dc_product_id set to default
+2. If it looks like 1055121650148 then set the value dc_product_id to product_id
+3. If it looks like the main id 81191654332 then set the value dc_product_id to parent_id
+4. If it looks like a sku then set the value dc_product_id to sku
+-->
+{% assign dc_product_id = 'default' %}
+
+<!-- CODE SETTINGS END -->
+<!-- ------------------------------------ -->
+<!-- DO NOT EDIT ANYTHING BELOW THIS LINE -->
+
+{% if dc_prices_with_decimal_separator == true %}
+	{% if template contains 'product' %}
+		{% assign dc_product_price = product.price_min | money_without_currency | remove:',' %}
+	{% endif %}
+{% else %}
+	{% if template contains 'product' %}
+		{% assign dc_product_price = product.price_min | money_without_currency | remove:'.' | replace: ',', '.' %}
+	{% endif %}
+{% endif %}
+
+{% if template contains 'collection' %}
+	{% assign dc_event = 'category' %}
+{% elsif template contains 'product' %}
+	{% assign dc_event = 'product' %}
+{% elsif template contains 'search' %}
+	{% assign dc_event = 'searchresults' %}
+{% elsif template contains 'index' %}
+	{% assign dc_event = 'home' %}
+{% endif %}
+
+<script>
+	dataLayer.push({
+    {% if dc_event %}
+      'event': 'DynamicRemarketing',
+      'ecomm_pagetype': '{{ dc_event }}',
+      'currency': '{{ shop.currency }}',
+      {% if template contains 'product' %}'ecomm_totalvalue': {{ dc_product_price }},{% endif %}
+      {% if template contains 'product' %}
+      	'ecomm_prodid': [
+        {% if dc_product_id == 'default' %}
+        	'shopify_{{ dc_product_id_alpha2_code }}_{{ product.id }}_{% if product.variants.first.id %}{{ product.variants.first.id }}{% else %}{{ product.variants.id }}{% endif %}'
+        {% elsif dc_product_id == 'product_id' %}
+          '{% if product.variants.first.id %}{{ product.variants.first.id }}{% else %}{{ product.variants.id }}{% endif %}'
+        {% elsif dc_product_id == 'parent_id' %}
+          '{{ product.id }}'
+        {% elsif dc_product_id == 'sku' %}
+          '{% if product.variants.first.id %}{{ product.variants.first.sku }}{% else %}{{ product.variants.sku }}{% endif %}'
+        {% endif %}
+        ]
+      {% endif %}
+    {% endif %}
+	});
+</script>
+<!-- Dynamic Creative - Dynamic Remarketing - Version 1.1 END -->
+  {%- render 'bold-pr' -%}
+    
+    <!-- Global site tag (gtag.js) - Google Ads: 1040735558 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-1040735558"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-1040735558');
+</script>
+
+    
+  <script src="//staticxx.s3.amazonaws.com/aio_stats_lib_v1.min.js?v=1.0"></script></head>
+
+  <body
+    {% unless settings.lazy_load %}
+      data-lazy-loading-disabled
+    {% endunless %}
+    class="template-{{ template.name }}"
+    {% if settings.enable_instantpage == true %}
+      data-instant-allow-query-string
+    {% endif %}
+  >
+    
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NPQ4NWG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    
+    <a class="skip-to-main" href="#site-main">{{ 'general.accessibility.skip_to_content' | t }}</a>
+    {% section 'static-announcement' %}
+    {% section 'static-utility-bar' %}
+
+    {% case settings.header_layout %}
+      {% when 'minimal' %}
+        {% section 'static-minimal-header' %}
+      {% when 'basic' %}
+        {% section 'static-basic-header' %}
+      {% else %}
+        {% section 'static-header' %}
+    {% endcase %}
+
+    {% comment %}
+      This intersection-target is for the traditional header.
+      It needs to sit outside of the sticky header, so it knows when to collapse
+    {% endcomment %}
+    {% if settings.header_layout == 'traditional' %}
+      <div class="intersection-target"></div>
+    {% endif %}
+
+    <main id="site-main" class="site-main" aria-label="Main content" tabindex="-1">
+      {% if template == 'index' %}
+        {% section 'static-slideshow' %}
+      {% endif %}
+
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'static-footer' %}
+
+    {% comment %}
+      Below are various templates used in JavaScript
+    {% endcomment %}
+    <div style="display: none;" aria-hidden="true" data-templates>
+      {% include 'message-banner' %}
+      {% include 'atc-banner' %}
+    </div>
+
+    {% comment %}
+      Modal container, used on Collections, Password, and QuickShop
+    {% endcomment %}
+    {% include 'modal' %}
+
+    {% comment %}
+      This is the PhotoSwipe dialog for product galleries which needs to be in the base page
+    {% endcomment %}
+    {% include 'product-gallery-zoom' %}
+
+    {% if preload_styles != 'await_all_styles' %}
+      {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+      {{ 'theme-more.scss.css' | asset_url | stylesheet_tag }}
+
+      {% if preload_styles == 'await_critical_styles' %}
+        <script>
+          (function(){
+            // remove above the fold styles to make sure there are no style conflicts
+            var aboveFoldStyles = document.querySelector('[data-styles-above-fold]');
+            aboveFoldStyles.parentNode.removeChild(aboveFoldStyles);
+          })();
+        </script>
+      {% endif %}
+    {% endif %}
+    
+
+    {%- if template contains 'customer' -%}
+      {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+      {{ 'customer_area.js' | shopify_asset_url | script_tag }}
+    {%- endif -%}
+
+    {% assign theme_script = 'superstore.js' %}
+    {% if settings.use_minified_js %}
+      {% assign theme_script = 'superstore.min.js' %}
+    {% endif %}
+
+    <script
+      src="{{ theme_script | asset_url }}"
+      data-scripts
+      data-shopify-api-url="{{ 'api.jquery.js' | shopify_asset_url }}"
+      data-shopify-countries="/services/javascripts/countries.js"
+      data-shopify-common="{{ 'shopify_common.js' | shopify_asset_url }}"
+      data-shopify-cart="{{ 'jquery.cart.js' | asset_url }}"
+      data-pxu-polyfills="{{ 'polyfills.js' | asset_url }}"
+    >
+    </script>
+    {% if settings.custom_styles != blank %}
+      {% unless settings.custom_styles contains '<style' %}<style>{% endunless %}
+        {{ settings.custom_styles }}
+      {% unless settings.custom_styles contains '<style' %}</style>{% endunless %}
+    {% endif %}
+
+    {% if settings.custom_scripts_footer != blank %}
+      {% unless settings.custom_scripts_footer contains '<script' %}<script>{% endunless %}
+        {{ settings.custom_scripts_footer }}
+      {% unless settings.custom_scripts_footer contains '<script' %}</script>{% endunless %}
+    {% endif %}
+
+    {% include 'structured-data' %}
+
+    <script>
+    (function () {
+      function handleFirstTab(e) {
+        if (e.keyCode === 9) { // the "I am a keyboard user" key
+          document.body.classList.add('user-is-tabbing');
+          window.removeEventListener('keydown', handleFirstTab);
+        }
+      }
+      window.addEventListener('keydown', handleFirstTab);
+    })();
+    </script>
+
+    {% include 'api' with 'page:body' %}
+    {{ page_body }}
+
+    {% if settings.enable_instantpage == true %}
+      <script
+        src="{{ 'instantPage.min.js' | asset_url }}"
+        type="module"
+        defer
+      >
+      </script>
+    {% endif %}
+    
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/js/swiper.min.js" integrity="sha256-NiMdnMv0WBAps3M8mcB7WHzlanETt0rnwMCgg67DgCk=" crossorigin="anonymous"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css" integrity="sha256-kGupfJ4zZb4/m0GPPVY0ng7FwSjZm1E0wMWG1aRYbwk=" crossorigin="anonymous" />
+     <script>
+       
+       {% if template contains 'product' %}
+      
+     
+      var swiper = new Swiper('.video-wrapper-products', {
+       slidesPerView: 1,
+       spaceBetween: 30,
+       pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+       },
+       breakpoints: {
+         640: {
+           slidesPerView: 1,
+           spaceBetween: 20,
+         },
+         768: {
+           slidesPerView: 1,
+           spaceBetween: 30,
+         },
+         1024: {
+           slidesPerView: 3,
+           spaceBetween: 30,
+         },
+       }
+      });
+       $(document).ready(function(){
+         $('.change-radius__btn').click(function(){
+           $('.change-radius').css({'opacity':'1','visibility':'visible'});
+         });
+         
+         $('.enter-radius').click(function(){
+           $('.change-radius').css({'opacity':'0','visibility':'hidden'});
+           $('.store-1').empty();
+           var newRadius = $('.new__radius').val();
+           $('.active__radius').text(newRadius);
+           
+          
+           
+        $.ajax({
+         url: "https://geoip-db.com/jsonp", 
+		 jsonpCallback: "callback",
+		 dataType: "jsonp",
+		 success: function( location ) {
+		   var cityLocation = location.city; 
+           var latitude = location.latitude;
+	       var longitude = location.longitude;
+           var radius = 25;
+           console.log(cityLocation + ' ' + latitude + ' ' + longitude);
+           
+           {% assign current_variant = product.selected_or_first_available_variant %}           
+           var productSku = '{{ current_variant.sku }}';
+           
+           console.log(productSku);
+           var url = `https://s1qp41r05c.execute-api.ap-southeast-2.amazonaws.com/prod?product=${productSku}&lat=${latitude}&lon=${longitude}&radius=${radius}`;
+           console.log(url);
+           
+           $.ajax({
+		    url: url,
+		    dataType: "json",
+		    success: function(data) {
+              console.log(data);
+              
+              var distributor = data[0].distID;
+              var inventory = data[0].instock;
+            
+              $.ajax({
+		        url: '{{ 'test.xml' | asset_url }}',
+		        dataType: "json",
+		        success: function(store) {
+                  console.log(store);
+                  for(i=0;i < data.length; i++){
+                    for(ii=0;ii < store.length; ii++){
+                      if(store[ii].distID == data[i].distID) {
+                         data[i].address=store[ii].address;
+                         data[i].phone=store[ii].phone;
+                         data[i].name=store[ii].name;
+                         data[i].google=store[ii].google;
+                         
+                         var name = data[i].name;
+                         var address = data[i].address;
+                         var phone = data[i].phone;
+                         var google = data[i].google;
+                        
+                         $('.store-1').append("<span class='store-result'>Store: " + name + "<br>Address: " + address + "<br>Phone: " + phone + "</span><span class='set_pickup' data-location='" + name + "'>SET AS PICKUP</span>");
+                      }
+                    }                    
+                  }
+                  console.log(data);                 
+                }
+              });
+            }
+          });
+         }
+	   });         
+        });
+       
+       {% if product.tags contains 'Only Bevan & Jet' %}
+       $.ajax({
+         url: "https://geoip-db.com/jsonp", 
+		 jsonpCallback: "callback",
+		 dataType: "jsonp",
+		 success: function( location ) {
+		   var cityLocation = location.city; 
+           var latitude = location.latitude;
+	       var longitude = location.longitude;
+           var state = location.state;
+           console.log(state);
+           if(state != 'Queensland') {
+             $('.contact--form').show();
+           }
+           else {
+             $('.add--form').show();
+           }
+         }
+	   });
+       
+       {% else %}
+       $('.add--form').show();
+       {% endif %}
+ });
+  {% endif %}  
+     </script>
+ <!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/5235280.js"></script>
+<!-- End of HubSpot Embed Code --> 
+    
+  {% include 'social-head-common' %}{% include 'swave-strip' %}
+</body>
+</html>

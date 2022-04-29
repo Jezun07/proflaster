@@ -1,0 +1,146 @@
+<article class="product--outer">
+  <div
+  class="
+    product-gallery
+    product-gallery--thumbs-{{ thumbnail_position }}
+    {% if hover_zoom != 'disabled' %}hover-zoom-enabled{% endif %}
+    {% if click_to_zoom != 'disabled' and click_to_zoom != 'mobile' %}click-to-zoom-enabled{% endif %}
+  "
+  data-product-gallery
+  {% if image_crop %}data-product-gallery-image-crop{% endif %}
+  data-product-gallery-aspect-ratio="{{ aspect_ratio }}"
+  data-product-gallery-thumbnails="{{ thumbnail_position }}"
+>
+  <div class="swiper-container gallery-top">
+    <div class="swiper-wrapper">
+       <div class="swiper-slide">{% include 'cf-image' with image: collection.metafields.custom_fields["bundle_image"] %}</div>
+       {% for product in collection.products %}  
+       <div class="swiper-slide"><img src="{{ product.images[0] | img_url: "original" }}"> </div>
+       {% endfor %}
+    </div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next swiper-button-white"></div>
+    <div class="swiper-button-prev swiper-button-white"></div>
+  </div>
+  <div class="swiper-container gallery-thumbs">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">{% include 'cf-image' with image: collection.metafields.custom_fields["bundle_image"] %}</div>
+       {% for product in collection.products %}  
+       <div class="swiper-slide"><img src="{{ product.images[0] | img_url: "original" }}"> </div>
+       {% endfor %}
+    </div>
+  </div>
+
+ 
+  </div>
+  
+  <div class="product-main">
+    <div class="product-details" data-product-details>
+    
+        <h1 class="product-title">
+          {{ collection.title }}
+        </h1>
+  
+
+      {% if settings.product_show_vendor and product.vendor != blank or onboarding %}
+        <div class="product-vendor">
+          {% unless onboarding %}
+              {{ product.vendor | link_to_vendor }}
+          {% else %}
+            {{ 'onboarding.product.by_vendor' | t }}
+          {% endunless %}
+        </div>
+      {% endif %}
+      
+      <div class="product-pricing" aria-live="polite">
+       <div class="product--price ">
+         <div class="price--compare-at " data-price-compare-at="" style="display: block !important;">
+           <span class="money">{{ collection.metafields.custom_fields["bundle_price"] }}</span>
+         </div>
+
+         <div class="price--main" data-price="">      
+           <span class="money">
+            {{ collection.metafields.custom_fields["bundle_sale_price"] }}
+           </span>
+         </div>
+        </div>
+      </div>
+    
+      {% if settings.product_show_sku == true %}
+        {% unless onboarding %}
+          <div
+            class="
+              product-sku
+              {% if sku == empty %}product-sku--empty{% endif %}
+            "
+          >
+            <strong>SKU</strong> {{ collection.metafields.custom_fields["product_sku"] }}
+          </div>
+        {% endunless %}
+      {% endif %}
+    </div>
+
+    {% comment %}
+      Product form original location, will remain unless is 3 column layout
+    {% endcomment %}
+    {%- assign product_sold_out = false -%}
+    {%- if settings.in_stock_notification_form != 'disabled' and product.available == false -%}
+      {%- assign product_sold_out = true -%}
+    {%- endif -%}
+    <div class="product-form--alt" data-product-form-regular>
+      <div {% if product_sold_out %}class="product-sold-out"{% endif %} data-product-form-area></div>
+       
+    </div>
+
+    {% comment %}
+      Product description field, never moves
+    {% endcomment %}
+    {% capture product_description %}{%- include 'shortcode-readmore', text: product.description, before_readmore: true -%}{% endcapture %}
+      <div class="product-description rte" data-product-description>{{ collection.description }}</div>
+      
+    {% if collection.metafields.custom_fields["features__benefits"]  != blank %}
+      <button class="accordion">Features and Benefits {% include 'icon-plus' %}</button>
+    
+      <div class="panel">
+        {{ collection.metafields.custom_fields["features__benefits"] }}
+      </div>
+    {% endif %}
+    {% if collection.metafields.custom_fields["warranty__maintenance"] != blank %}
+      <button class="accordion">Warranty & Maintenance {% include 'icon-plus' %}</button>
+    
+      <div class="panel">
+        {{ collection.metafields.custom_fields["warranty__maintenance"] }}
+      </div>
+    {% endif %}
+    {% if collection.metafields.custom_fields["technical_documents__resources"]  != blank %}
+      <button class="accordion">Technical Documents & Resources {% include 'icon-plus' %}</button>
+    
+      <div class="panel">
+        {{ collection.metafields.custom_fields["technical_documents__resources"] }}
+      </div>
+    {% endif %}
+    {% if  collection.metafields.custom_fields["specs__more_info"] != blank %}
+      <button class="accordion">Specs & More Info {% include 'icon-plus' %}</button>
+    
+      <div class="panel">
+        {{ collection.metafields.custom_fields["specs__more_info"] }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% comment %}
+    If is a 3 column layout, the form will move here at $bp-large (layout.isBreakpoint('L'))
+  {% endcomment %}
+  {% if layout == 'layout--three-col' %}
+    <div class="product-form--alt" data-product-form-alt>
+       {% include 'product-form-bundle' %}
+        {% if enable_social_sharing %}
+          {{ share_buttons | strip_newlines }}
+        {% endif %}
+    </div>
+  {% endif %}
+</article>
+
+{% assign show_description = blank %}
+{% assign layout = blank %}
+

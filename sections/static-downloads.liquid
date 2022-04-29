@@ -1,0 +1,107 @@
+<article class="site-page" data-template-page>
+  <header class="page-masthead">
+    <h1 class="page-title">
+      {{ page.title }}
+    </h1>
+  </header>
+
+    <div class="page-content rte">
+      <div class="faq-wrapper">
+        <button class="accordion">Product Information Sheets  {% include 'icon-plus' %}</button>
+        <div class="panel" id="product-information">
+        <input type="text" id="search-product-information"  placeholder="Search ...">  
+        <p class="case">The search is case sensitive</p>  
+        {% for block in section.blocks %}
+         {% if block.type == 'df-prod-info' %}
+             {{ block.settings.text }}
+         {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      <div class="faq-wrapper">
+        <button class="accordion">Product Safety Sheets  {% include 'icon-plus' %}</button>
+        <div class="panel" id="product-safety">
+        <input type="text" id="search-product-safety"  placeholder="Search ...">  
+        <p class="case">The search is case sensitive</p>
+        {% for block in section.blocks %}
+         {% if block.type == 'df-product-safety' %}
+             {{ block.settings.text }}
+         {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      <div class="faq-wrapper">
+        <button class="accordion">Schematics {% include 'icon-plus' %}</button>        
+        <div class="panel" id="schematics">
+        <input type="text" id="search-schematics"  placeholder="Search ...">
+        <p class="case">The search is case sensitive</p>  
+        {% for block in section.blocks %}
+         {% if block.type == 'df-schematics' %}
+             {{ block.settings.text }}
+         {% endif %}
+        {% endfor %}
+            </div>
+      </div>
+  </div>
+</article>
+<script>
+  
+</script>
+{% schema %}
+  {
+    "name": "Documents & Downloads",
+    "settings": [
+	  
+	],
+    "blocks": [
+     {
+      "type": "df-prod-info",
+      "name": "Product Info Sheets",
+      "settings": [
+         {
+           "id": "title",
+           "type": "text",
+           "label": "Title"
+         },
+         {
+           "id": "text",
+           "type": "richtext",
+           "label": "Text"
+         }
+       ]
+     },
+     {
+      "type": "df-product-safety",
+      "name": "Product Safety Sheets",
+      "settings": [
+         {
+           "id": "title",
+           "type": "text",
+           "label": "Title"
+         },
+         {
+           "id": "text",
+           "type": "richtext",
+           "label": "Text"
+         }
+       ]
+     },
+     {
+      "type": "df-schematics",
+      "name": "Schematics and Product",
+      "settings": [
+         {
+           "id": "title",
+           "type": "text",
+           "label": "Title"
+         },
+         {
+           "id": "text",
+           "type": "richtext",
+           "label": "Text"
+         }
+       ]
+     }
+  ]
+  }
+{% endschema %}

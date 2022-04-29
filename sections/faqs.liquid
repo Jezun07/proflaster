@@ -1,0 +1,191 @@
+<article class="site-page" data-template-page>
+  <header class="page-masthead">
+    <h1 class="page-title">
+      {{ page.title }}
+    </h1>
+  </header>
+
+    <div class="page-content rte">
+      <div class="faq-wrapper">
+        <h2>{{ section.settings.heading-1 }}</h2>
+        {% for block in section.blocks %}
+         {% if block.type == 'FAQ-BO' %}
+           <button class="accordion">{{ block.settings.title }} {% include 'icon-plus' %}</button>
+           <div class="panel">
+             {{ block.settings.text }}
+           </div>
+         {% endif %}
+        {% endfor %}
+      </div>
+      <div class="faq-wrapper">
+        <h2>{{ section.settings.heading-2 }}</h2>
+        {% for block in section.blocks %}
+         {% if block.type == 'FAQ-WAR' %}
+           <button class="accordion">{{ block.settings.title }} {% include 'icon-plus' %}</button>
+           <div class="panel">
+             {{ block.settings.text }}
+           </div>
+         {% endif %}
+        {% endfor %}
+      </div>
+      <div class="faq-wrapper">
+        <h2>{{ section.settings.heading-3 }}</h2>
+        {% for block in section.blocks %}
+         {% if block.type == 'FAQ-TC' %}
+           <button class="accordion">{{ block.settings.title }} {% include 'icon-plus' %}</button>
+           <div class="panel">
+             {{ block.settings.text }}
+           </div>
+         {% endif %}
+        {% endfor %}
+      </div>
+      <div class="grid-item--whole">
+          <h2>Couldn’t find what you were looking for?</h2>
+        </div>
+      <div class="support-panel">
+        <div class="support-wrapper grid-item--whole">
+        <div class="grid-item--third">
+          <div class="support-inner">
+          <h4>Ask a Pro
+           <svg {{ shared_svg_attrs }} width="44" height="44" viewBox="0 0 44 44" fill="none">
+             {{ icon_title }}
+             <path fill-rule="evenodd" clip-rule="evenodd" d="M21.9983 29.4244C26.0979 29.4244 29.4212 26.101 29.4212 22.0015C29.4212 17.9019 26.0979 14.5786 21.9983 14.5786C17.8987 14.5786 14.5754 17.9019 14.5754 22.0015C14.5754 26.101 17.8987 29.4244 21.9983 29.4244Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M32.7203 37.6721C25.5221 42.6084 15.8855 42.0006 9.36458 36.199C2.8436 30.3974 1.11858 20.8971 5.1837 13.1734C9.24883 5.44965 18.0565 1.49287 26.5307 3.58346C35.0048 5.67405 40.9616 13.2733 40.968 22.0015V23.651C40.968 26.8396 38.3831 29.4244 35.1946 29.4244C32.006 29.4244 29.4212 26.8396 29.4212 23.651V22.0015" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+           </svg>
+          </h4>
+          <ul>
+            <li class="list-heading">Email us below:</li>
+            <li><span class="enquiry--open">ENQUIRE NOW</span></li>
+          </ul>
+          </div>
+        </div>
+        <div class="grid-item--third">
+          <div class="support-inner">
+          <h4>Phone
+            <svg {{ shared_svg_attrs }} width="26" height="46" viewBox="0 0 26 46" fill="none">
+             {{ icon_title }}
+             <path d="M13 40.9583V40.9583C13.2532 40.9583 13.4584 41.1635 13.4584 41.4166V41.4166C13.4584 41.6698 13.2532 41.875 13 41.875V41.875C12.7469 41.875 12.5417 41.6698 12.5417 41.4166V41.4166C12.5417 41.1635 12.7469 40.9583 13 40.9583" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+             <path fill-rule="evenodd" clip-rule="evenodd" d="M1.08334 5.91666C1.08334 4.25981 2.42649 2.91666 4.08334 2.91666H21.9167C23.5735 2.91666 24.9167 4.2598 24.9167 5.91666V42.0833C24.9167 43.7402 23.5735 45.0833 21.9167 45.0833H4.08335C2.42649 45.0833 1.08334 43.7402 1.08334 42.0833V5.91666Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M24.9167 37.75H1.08334" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M24.9167 10.25H1.08334" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M10.25 6.58331H15.75" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </h4>
+          <ul>
+            <li class="list-heading">Talk with us:</li>
+            <li><b><a href="tel:1300 776 752" style="font-size: 16px;color: #fff;margin-top: 6px;display: block;">1300 PRO PLASTER<br>(1300 776 752)</a></b></li>
+          </ul>
+          </div>
+        </div>
+        <div class="grid-item--third">
+          <div class="support-inner">
+          <h4>Live Chat<svg {{ shared_svg_attrs }} width="44" height="44" viewBox="0 0 44 44" fill="none">
+      {{ icon_title }}
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M17.4167 30.25C17.4167 38.1113 26.5833 44 34.8333 40.3333L42.1667 43.0833L39.4167 37.5833C41.7262 35.8533 43.0851 33.1357 43.0833 30.25C43.0833 24.4677 37.3377 19.25 30.25 19.25C23.1623 19.25 17.4167 24.4677 17.4167 30.25Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M32.0833 13.75L32.9583 13.7616V13.75H32.0833ZM0.916656 13.75H0.0416565C0.0416565 13.7561 0.041721 13.7623 0.0418501 13.7684L0.916656 13.75ZM5.53116 22.8617L6.29088 23.2958C6.50802 22.9157 6.41096 22.4337 6.06366 22.1673L5.53116 22.8617ZM1.83332 29.3333L1.0736 28.8992C0.888951 29.2224 0.928935 29.627 1.17326 29.9077C1.41759 30.1885 1.81279 30.284 2.15835 30.1457L1.83332 29.3333ZM10.8882 25.7107L11.153 24.8767C10.9598 24.8154 10.7513 24.823 10.5631 24.8983L10.8882 25.7107ZM32.7599 15.7452C32.8831 15.091 32.9494 14.4273 32.9582 13.7616L31.2084 13.7384C31.2009 14.3032 31.1446 14.8663 31.0401 15.4214L32.7599 15.7452ZM32.9583 13.75C32.9583 6.02815 25.4337 0.0416565 16.5 0.0416565V1.79166C24.7996 1.79166 31.2083 7.2965 31.2083 13.75H32.9583ZM16.5 0.0416565C7.56627 0.0416565 0.0416565 6.02815 0.0416565 13.75H1.79166C1.79166 7.2965 8.20037 1.79166 16.5 1.79166V0.0416565ZM0.0418501 13.7684C0.122772 17.6142 1.94636 21.215 4.99865 23.556L6.06366 22.1673C3.43293 20.1497 1.86121 17.0462 1.79146 13.7316L0.0418501 13.7684ZM4.77143 22.4276L1.0736 28.8992L2.59305 29.7674L6.29088 23.2958L4.77143 22.4276ZM2.15835 30.1457L11.2132 26.5231L10.5631 24.8983L1.5083 28.5209L2.15835 30.1457ZM10.6233 26.5446C11.6026 26.8556 12.6054 27.0875 13.6218 27.2381L13.8782 25.5069C12.9544 25.3701 12.0431 25.1594 11.153 24.8767L10.6233 26.5446Z" fill="currentColor"/>
+    </svg></h4>
+          <ul>
+            <li class="list-heading">Chat with us:</li>
+            <li><span class="open--chat">OPEN CHAT</span></li>
+          </ul>
+          </div>
+        </div>
+          <div class="grid-item--whole">
+            <p class="smaller-font"><span>Service Hours</span>8:00am - 4:00pm, Mon to Fri AEST.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</article>
+<div class="enquiry--modal">
+  <!--[if lte IE 8]>
+<script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2-legacy.js"></script>
+<![endif]-->
+<script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+<script>
+  hbspt.forms.create({
+                portalId: "5235280",
+                formId: "32cece8a-2fe3-475b-a7d9-3258bf8eff3b"
+});
+</script>
+</div>
+{% schema %}
+  {
+    "name": "FAQs",
+    "settings": [
+       {
+         "id": "heading-1",
+         "type": "text",
+         "label": "FAQ Heading 1"
+       },
+       {
+         "id": "heading-2",
+         "type": "text",
+         "label": "FAQ Heading 2"
+       },
+       {
+         "id": "heading-3",
+         "type": "text",
+         "label": "FAQ Heading 3"
+       }
+	],
+    "blocks": [
+     {
+      "type": "FAQ-BO",
+      "name": "Buying Online",
+      "settings": [
+         {
+           "id": "title",
+           "type": "text",
+           "label": "Title"
+         },
+         {
+           "id": "text",
+           "type": "richtext",
+           "label": "Text"
+         }
+       ]
+     },
+     {
+      "type": "FAQ-WAR",
+      "name": "Warranty",
+      "settings": [
+         {
+           "id": "title",
+           "type": "text",
+           "label": "Title"
+         },
+         {
+           "id": "text",
+           "type": "richtext",
+           "label": "Text"
+         }
+       ]
+     },
+     {
+      "type": "FAQ-TC",
+      "name": "Trade Centres",
+      "settings": [
+         {
+           "id": "title",
+           "type": "text",
+           "label": "Title"
+         },
+         {
+           "id": "text",
+           "type": "richtext",
+           "label": "Text"
+         }
+       ]
+     }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+

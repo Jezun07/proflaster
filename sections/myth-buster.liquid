@@ -1,0 +1,170 @@
+<div class="container">
+ <div class="one-third-column">
+    <h1 class="title1">MYTH BUSTED</h1>
+    <h3 class="title2">—#1—</h3>
+    <h1 class="title3">My warranty is voided if I don’t <br> use the “whole system”</h1>
+   <p><span>REALITY:</span> Outside of the tested fire system, the brand of compounds doesn't void the warranty on the plasterboard as long as the compounds are compliant with the Australian standards.</p>
+        <br>
+    <a href="https://tradietalk.proplaster.com.au/myth1busted_warrantyvoided" target="_blank" class="button">GET THE FACTS!</a>
+  </div>
+  <div class="one-third-column">
+    <h1 class="title1">MYTH BUSTED</h1>
+    <h3 class="title2">—#2—</h3>
+    <h1 class="title3">It's safer to go with the <br> "big brands"</h1>
+    <p><span>REALITY:</span> It's your choice which products to use to get the best result. Sticking to well-known 'big brands' doesn't ensure you are getting the best deal. If anything, you could be missing out on a good deal.</p>
+        <br>
+    <a href="https://tradietalk.proplaster.com.au/myth2busted_saftertogowithbigbrands" target="_blank" class="button">GET THE FACTS!</a>
+  </div>
+  <div class="one-third-column-last">
+    <h1 class="title1">MYTH BUSTED</h1>
+    <h3 class="title2">—#3—</h3>
+    <h1 class="title3">An all-in-one solution is <br> always the best</h1>
+    <p><span>REALITY:</span> Specialist brands offer tailored solutions with personalised service. Pro Plaster works closely with plasterers to seek out formal customer feedback for continued improvement of their compounds.</p>
+    <br>
+    <a href="https://tradietalk.proplaster.com.au/myth3busted_allinonesolution" target="_blank" class="button">GET THE FACTS!</a>
+  </div>
+</div>
+<br style="clear:both;" />
+<style> 
+  
+  .container{
+  	padding-left: 20px;
+    padding-right: 20px;
+  }
+    .one-third-column {
+        width:33.3%;
+        float:left;
+      	text-align: center;
+    }
+    .one-third-column-last {
+        width:33.3%;
+        float:right;
+      	text-align: center;
+    }
+  h1, h3, p{
+      font-family: Tahoma, Arial, Helvetica, sans-serif;
+    color: #000000;
+  }
+    .button{
+        background-color: #ce1126;
+      	color: white;
+      	height: 45px;
+        font-family: 'Nunito Sans', sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        text-decoration: none;
+      	border-radius: 50px;
+      	font-size: 14px;
+      	padding: 14px 44px;
+      	margin-top: 15px;
+    }
+  .button:hover{
+  	color: rgba(255,229,153,1.0)
+  }
+  h3{
+
+    font-family: 'Book Antiqua', Palatino, Georgia, serif;
+    font-size: 60px;
+  }
+  
+  h1{
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+  }
+  p{
+  font-size: 18px;
+    line-height: 1.25;
+    text-align: left;
+    margin-top: 50px;
+    width:355px;
+    margin-left: 37px;
+  }
+  span{
+  text-decoration: underline;
+  }
+  
+    .title2{
+  margin-bottom: 12px;
+      margin-top:12px;
+  }
+  
+  .title1{
+  margin-top: 30px;
+  }
+  
+  .title3{
+  font-size:22px;
+  }
+
+  @media only screen 
+  and (min-device-width: 360px) 
+  and (max-device-width: 540px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+   
+    p{
+     width: unset; 
+     margin-left: unset;
+    }
+
+}
+  
+    @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+   
+    p{
+     width: unset; 
+     margin-left: unset;
+    }
+
+}
+      @media only screen 
+  and (min-device-width: 1025px) 
+  and (max-device-width: 4000px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+   
+    p{
+     width: unset; 
+     margin-left: unset;
+    }
+
+}
+
+@media only screen and (max-width: 600px) {
+.one-half-column-left, .one-half-column-right, 
+.one-third-column, .one-third-column-last {
+float:none;
+width:100%;
+margin-right:0;
+}
+}
+</style>
+ 
+{% schema %}
+  {
+    "name": "Myth Buster",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type":"textarea",
+        "id": "myth-buster",
+        "label": "HTML"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Myth Buster",
+        "category": "Myth Buster",
+        "settings": {
+ 
+        }
+      }
+    ]
+  }
+{% endschema %}

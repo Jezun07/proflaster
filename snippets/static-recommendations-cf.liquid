@@ -1,0 +1,84 @@
+{% assign product_refs = product.metafields.custom_fields["product_reference_2"] | split: "|" %}
+
+
+<section
+    class="product-section--container product-row--container product-recommendations--container"
+    data-html
+    data-product-recommendations
+  >
+      <h2 class="product-section--title product-recommendations--title">
+        Related Products
+      </h2>
+
+      <ul
+        class="
+          related-products
+          product-section--content
+          product-row
+          {% if settings.enable_product_card_spacing == false %}product-row--no-spacing{% endif %}
+        "data-product-row>
+          {% for product_handle in product_refs %}
+            
+          <li
+            class="{{ classes | strip_newlines }}"
+              data-product-item>
+            
+            {% assign product_ref = all_products[product_handle] %}
+            
+{% assign on_sale = false %}
+{% if compare_at_price > price %}
+  {% assign on_sale = true %}
+{% endif %}
+           <article class="productitem" data-product-item-content>
+    
+             <a
+               class="productitem--image-link"
+               href="{{ product_ref.url }}"
+      		   tabindex="-1"
+      		   data-product-page-link
+    	     >
+      		  <figure class="productitem--image" data-product-item-image>
+                <img src="{{ product_ref.featured_image | img_url: 'original' }}" style="visibility: visible;">
+                <div class="productitem--info">  
+        <span class="productitem--vendor">
+          {{ product_ref.vendor }}
+        </span>
+
+      <h2 class="productitem--title">
+        <a href="{{ product_ref.url }}" data-product-page-link>
+          {{ product_ref.title }}
+        </a>
+      </h2>
+      <p class="sku-collection">{{ product_ref.variants.first.sku }}</p> 
+       
+      <div class="productitem--price ">
+       <div class="price--main" data-price="">
+         <span class="money">
+         {{ product_ref.price | money }}
+         </span>
+       </div>
+      </div>             
+
+      {% if product_ratings_reviews and product_ratings_star_display == "all" %}
+        <div class="productitem--ratings">
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+            <span class="spr-badge">
+              <span class="spr-starrating spr-badge-starrating">
+                <i class="spr-icon spr-icon-star-empty"></i>
+                <i class="spr-icon spr-icon-star-empty"></i>
+                <i class="spr-icon spr-icon-star-empty"></i>
+                <i class="spr-icon spr-icon-star-empty"></i>
+                <i class="spr-icon spr-icon-star-empty"></i>
+              </span>
+            </span>
+          </span>
+        </div>
+      {% endif %}
+    </div>
+               </figure>
+             </a>
+           </article>
+          </li>
+        {% endfor %}
+     </ul>
+</section>

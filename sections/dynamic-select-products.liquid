@@ -1,0 +1,271 @@
+{% style %}
+
+  #shopify-section-{{section.id}} {
+    background-color: {{ section.settings.background_color }};
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--container {
+    padding-top: {{ section.settings.section_spacing_mobile }}px;
+    padding-bottom: {{ section.settings.section_spacing_mobile }}px;
+  }
+
+  @media screen and (min-width: 720px) {
+    #shopify-section-{{section.id}} .featured-collection--container {
+      padding-top: {{ section.settings.section_spacing_desktop }}px;
+      padding-bottom: {{ section.settings.section_spacing_desktop }}px;
+    }
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--overlay:not(.banner) {
+    {% if section.settings.background_overlay_style == 'solid' %}
+      background-color: {{ section.settings.background_overlay_color }};
+    {% elsif section.settings.background_overlay_style == 'gradient' %}
+      background: {%
+        include 'gradient',
+        color: section.settings.background_overlay_color,
+        text_position: 'top'
+      %};
+    {% endif %}
+    opacity: {{ section.settings.background_overlay_opacity }}%;
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--container {
+    margin-bottom: 0;
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--container .home-section--title {
+    color: {{ section.settings.heading_color }};
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--container .home-section--subheading,
+  #shopify-section-{{section.id}} .featured-collection--container .home-section--subheading a {
+    color: {{ section.settings.subheading_color }};
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--container .flickity-prev-next-button .flickity-button-icon {
+    fill: {{ section.settings.heading_color }};
+  }
+
+  #shopify-section-{{section.id}} .featured-collection--container .flickity-prev-next-button:not(:disabled):hover .flickity-button-icon {
+    fill: #000;
+  }
+{% endstyle %}
+
+
+{% assign banner = blank %}
+{% assign banner_position = blank %}
+
+
+{% assign products = collection.products %}
+{% assign onboarding = false %}
+
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-type="dynamic-featured-collection"
+>
+</script>
+
+<div class="
+  featured-collection--wrapper
+  {% if section.settings.background_image %}featured-collection--background-image {{ section.settings.background_image_position | replace: '-', ' ' }}{% endif %}
+  "
+  {{ background_image }}
+>
+  {% unless section.settings.background_overlay_style == 'none' %}
+    <div class="featured-collection--overlay"></div>
+  {% endunless %}
+  <section
+    class="
+      featured-collection--container
+      product-row--container
+    "
+    data-layout="{{ section.settings.product_layout }}"
+  >
+    {% if section.settings.title != blank or section.settings.subheading != blank %}
+      <div class="home-section--title-container" >
+      {% if section.settings.title != blank %}
+        <h2 class="home-section--title">
+          {{ section.settings.title | escape }}
+        </h2>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <div class="home-section--subheading">
+          {{ section.settings.subheading }}
+        </div>
+      {% endif %}
+      </div>
+    {% endif %}
+
+    <ul
+      class="
+        home-section--content
+        product-row
+        {% if settings.enable_product_card_spacing == false %}product-row--no-spacing{% endif %}
+      "
+      data-content
+      data-layout="{{- section.settings.product_layout -}}"
+    >
+      {% for block in section.blocks %}
+      {% assign product = all_products[block.settings.product] %}
+        {%
+          include 'product-grid-item',
+          product: product
+        %}
+      {% endfor %}
+    </ul>
+     {% if section.settings.enable_button %}
+      {% assign button_style = section.settings.cta_button_style | split: "_" %}
+      {% if section.settings.cta_text != blank %}
+        {%- capture button_classes -%}
+          featured-collection--cta
+          button-{{ button_style.first }}
+          {% if button_style contains 'icon' %}
+            has-icon
+          {% endif %}
+        {%- endcapture- %}
+        <div class="featured-collection--cta-wrapper">
+          <a
+            class="{{ button_classes }}"
+            href="{{ section.settings.btn_url }}"
+          >
+            <span class="button-text">
+              {{ section.settings.cta_text }}
+            </span>
+            {% if button_style contains 'icon' %}
+              <span class="button-icon">
+                {% include 'icon-library', id: 'icon-chevron-signpost' %}
+              </span>
+            {% endif %}
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Collection (Manual)",
+  "class": "featured-collection--section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Section heading color",
+      "default": "#4D4D4D"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Section subheading color",
+      "default": "#4D4D4D"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color"
+    },
+    {
+      "type": "range",
+      "id": "section_spacing_desktop",
+      "label": "Desktop section spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_spacing_mobile",
+      "label": "Mobile section spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_button",
+      "label": "Enable button"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Label",
+      "default": "Shop collection"
+    },
+    {
+      "id": "cta_button_style",
+      "type": "select",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "primary_with_icon",
+          "label": "Primary with icon"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "secondary_with_icon",
+          "label": "Secondary with icon"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection (Manual)",
+      "category": "Collection",
+      "blocks": [
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

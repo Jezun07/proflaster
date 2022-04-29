@@ -1,0 +1,70 @@
+<div class='social-widget-wrapper' data-widget-id='40878'></div>
+
+
+{% section 'static-product' %}
+{% if product.metafields.custom_fields["product_reference_2"] != blank %}
+{% include 'static-recommendations-cf' %}
+{% else %}
+{% section 'static-product-recommendations' %}
+{% endif %}
+{% section 'static-product-reviews' %}
+{% section 'static-recently-viewed' %}
+{% section 'static-product-promo-grid' %}
+
+
+<!-- Dynamic Creative - Add To Cart - Version 1.1 START -->
+<!-- CODE SETTINGS START -->
+
+<!-- Please add your alpha2 code, you can find it here: https://help.shopify.com/en/api/custom-storefronts/storefront-api/reference/enum/countrycode -->
+{% assign dc_product_id_alpha2_code = 'AU' %}
+
+<!-- if you have prices such as 1,000.00 set below to true, if you have prices such as 1.000,00 set below to false -->
+{% assign dc_prices_with_decimal_separator = true %}
+
+<!-- 
+set your product id values are default, product_id, parent_id, sku
+1. If it looks like shopify_US_81191654332_1055121650148, then keep dc_product_id set to default
+2. If it looks like 1055121650148 then set the value dc_product_id to product_id
+3. If it looks like the main id 81191654332 then set the value dc_product_id to parent_id
+4. If it looks like a sku then set the value dc_product_id to sku
+-->
+{% assign dc_product_id = 'default' %}
+
+<!-- CODE SETTINGS END -->
+<!-- ------------------------------------ -->
+<!-- DO NOT EDIT ANYTHING BELOW THIS LINE -->
+
+{% if dc_prices_with_decimal_separator == true %}
+	{% if template contains 'product' %}
+		{% assign dc_product_price = product.price_min | money_without_currency | remove:',' %}
+	{% endif %}
+{% else %}
+	{% if template contains 'product' %}
+		{% assign dc_product_price = product.price_min | money_without_currency | remove:'.' | replace: ',', '.' %}
+	{% endif %}
+{% endif %}
+
+<script>
+  document.querySelector('.atc-button--text').addEventListener('click',function () {
+    dataLayer.push({
+      'event': 'DynamicRemarketing',
+      'ecomm_pagetype': 'cart',
+      'ecomm_totalvalue': {{ dc_product_price }},
+      'currency': '{{ shop.currency }}',
+      'ecomm_prodid': [
+        {% if dc_product_id == 'default' %}
+        	'shopify_{{ dc_product_id_alpha2_code }}_{{ product.id }}_{% if product.variants.first.id %}{{ product.variants.first.id }}{% else %}{{ product.variants.id }}{% endif %}'
+        {% elsif dc_product_id == 'product_id' %}
+          '{% if product.variants.first.id %}{{ product.variants.first.id }}{% else %}{{ product.variants.id }}{% endif %}'
+        {% elsif dc_product_id == 'parent_id' %}
+          '{{ product.id }}'
+        {% elsif dc_product_id == 'sku' %}
+          '{% if product.variants.first.id %}{{ product.variants.first.sku }}{% else %}{{ product.variants.sku }}{% endif %}'
+        {% endif %}
+      ]
+    });
+  });
+</script>
+<!-- Dynamic Creative - Add To Cart - Version 1.1 END -->
+
+<!--Start Stamped.io Auto Installation--><div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}" data-product-sku="{{product.handle}}" data-product-type="{{product.type}}" data-widget-language="{{shop.locale}}">{{ product.metafields.stamped.reviews }}</div><!--End Stamped.io Auto Installation-->

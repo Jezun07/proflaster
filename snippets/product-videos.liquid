@@ -1,0 +1,86 @@
+<style>
+  .swiper-slide.swiper-slide-active{
+    width:auto !important;
+  }
+  .swiper-slide.swiper-slide-next {
+    width: auto !important;
+  }
+  .video_description{
+      width: 100%;
+  }
+  
+ @media only screen and (max-width:700px) {
+  	iframe {
+    width: 340px !important;
+	}
+ 
+   .product-gallery iframe {
+     width: 100% !important;
+   }
+    .swiper-container.video-wrapper-products {
+    padding-left: 10px;
+    }
+    .video_description{
+      width: 330px;
+    }
+ }
+  
+  @media only screen and (min-width:1366px) {
+    
+    .swiper-slide.swiper-slide-active {
+      width: 33.33% !important;
+    }
+    
+    .swiper-slide.swiper-slide-next {
+      width: 33.33% !important;
+    }
+    
+    .video-wrapper-products .swiper-slide {
+      overflow: inherit !important;
+    }
+    
+/*     .swiper-wrapper {
+    padding: 0 205px 0 0px !important;
+} */
+    
+    iframe {
+      width: 100%;
+    }
+    
+    .swiper-slide {
+      width: 33.3% !important;
+    }
+    
+    .swiper-wrapper {
+/*       justify-content: space-evenly; */
+      grid-gap: 10px;
+      padding: 0 125px 0 25px !important;
+    }
+    
+    .swiper-container.video-wrapper-products {
+      padding: 0;
+    }
+  }
+    
+  
+
+</style>
+
+<div class="swiper-container video-wrapper-products">
+  <div class="swiper-wrapper" style="width:auto;">
+    {% if product.metafields.custom_fields["video_1"] != blank %}
+    <div class="swiper-slide">{{ product.metafields.custom_fields["video_1"] }}<div class="video_description">{{ product.metafields.custom_fields["video_description_1"] }}</div></div>
+    {% endif %}
+    {% if product.metafields.custom_fields["video_2"] != blank %}
+     <div class="swiper-slide">{{ product.metafields.custom_fields["video_2"] }}<div class="video_description">{{ product.metafields.custom_fields["video_description_2"] }}</div></div>
+    {% endif %}
+    {% if product.metafields.custom_fields["video_3"] != blank %}
+     <div class="swiper-slide">{{ product.metafields.custom_fields["video_3"] }}<div class="video_description">{{ product.metafields.custom_fields["video_description_3"] }}</div></div>
+    {% endif %}
+    {% if product.metafields.custom_fields["video_4"] != blank %}
+     <div class="swiper-slide">{{ product.metafields.custom_fields["video_4"] }}<div class="video_description">{{ product.metafields.custom_fields["video_description_4"] }}</div></div>
+    {% endif %}
+  </div>
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+</div>

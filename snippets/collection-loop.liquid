@@ -1,0 +1,71 @@
+ {% for link in linklist.links %}
+
+    {% comment %}
+      This section supports linking to collections, products, pages, and blogs. It will use the first image found in the page content or blog article.
+    {% endcomment %}
+
+    {% assign link_item = link.object %}
+    {% assign link_image = '' %}
+    {% capture link_title %}{{ link.title | escape }}{% endcapture %}
+
+    {% if link.type == 'collection_link' %}
+      {% if link_item.image %}
+        {% assign link_image = link_item.image.src | collection_img_url: 'grande' %}
+      {% else %}
+        {% assign link_image = link_item.products.first.featured_image | product_img_url: 'grande' %}
+      {% endif %}
+    {% endif %}
+    <li class="productgrid--item">
+      <article class="productitem" data-product-item-content>
+       <a
+      class="productitem--image-link"
+      href="{{ link.url }}"
+      tabindex="-1"
+      data-product-page-link
+    >
+      <figure class="productitem--image" data-product-item-image>
+        {% if link_image != '' %}
+            <img src="{{ link_image }}"
+            class="productitem--image-primary"
+            alt="{{ link_title }}" />
+         {% endif %}
+      </figure>
+      </a>
+      <div class="productitem--info">
+        <h2 class="productitem--title">
+          <a href="{{ link.url }}" data-product-page-link>
+            {{ link.title }}
+          </a>
+        </h2>
+        {% for collection in collections %}
+         {% if collection.title contains link_title %}
+           <p class="sku-collection">{{ collection.metafields.custom_fields["product_sku"] }}</p>
+         
+        <div class="product-pricing" aria-live="polite">
+       <div class="product--price ">
+         <div class="price--compare-at " data-price-compare-at="" style="display: block !important;">
+           <span class="money">{{ collection.metafields.custom_fields["bundle_price"] }}</span>
+         </div>
+
+         <div class="price--main" data-price="">      
+           <span class="money">
+            {{ collection.metafields.custom_fields["bundle_sale_price"] }}
+           </span>
+         </div>
+        </div>
+      </div>
+        {% endif %}
+        {% endfor %}
+      </div>   
+      </article>
+    </li>
+  {% endfor %}
+<style>
+.productitem--info h2 {
+  font-size: 14px;
+}
+.product--price .price--compare-at, .product--price .price--main {
+  font-size: 1.17188rem;
+  font-size: 15px;
+}
+</style>

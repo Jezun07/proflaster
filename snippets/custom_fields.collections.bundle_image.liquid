@@ -7,7 +7,18 @@
   <div class="custom-field custom-field__bundle-image custom-field__type--image">
     <h3 class="custom-field--title">Bundle Image</h3>
     <div class="custom-field--value">  
-      {% include 'cf-image' with image: collection.metafields.custom_fields["bundle_image"] %}
+      {% include 'cf-image' with image, image: collection.metafields.custom_fields.bundle_image %}
     </div>
   </div>
-{% endif %}
+{% endif %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% include ''cf-image'' with image: collection.metafields.custom_fields["bundle_image"]
+    %}'
+  to: "{% include 'cf-image' with image, image: collection.metafields.custom_fields.bundle_image
+    %}"
+  position: 514..606
+{%- endcomment -%}

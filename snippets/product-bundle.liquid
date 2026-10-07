@@ -13,7 +13,7 @@
 >
   <div class="swiper-container gallery-top">
     <div class="swiper-wrapper">
-       <div class="swiper-slide">{% include 'cf-image' with image: collection.metafields.custom_fields["bundle_image"] %}</div>
+       <div class="swiper-slide">{% include 'cf-image' with image, image: collection.metafields.custom_fields.bundle_image %}</div>
        {% for product in collection.products %}  
        <div class="swiper-slide"><img src="{{ product.images[0] | img_url: "original" }}"> </div>
        {% endfor %}
@@ -24,7 +24,7 @@
   </div>
   <div class="swiper-container gallery-thumbs">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">{% include 'cf-image' with image: collection.metafields.custom_fields["bundle_image"] %}</div>
+      <div class="swiper-slide">{% include 'cf-image' with image, image: collection.metafields.custom_fields.bundle_image %}</div>
        {% for product in collection.products %}  
        <div class="swiper-slide"><img src="{{ product.images[0] | img_url: "original" }}"> </div>
        {% endfor %}
@@ -144,3 +144,20 @@
 {% assign show_description = blank %}
 {% assign layout = blank %}
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% include ''cf-image'' with image: collection.metafields.custom_fields["bundle_image"]
+    %}'
+  to: "{% include 'cf-image' with image, image: collection.metafields.custom_fields.bundle_image
+    %}"
+  position: 615..707
+- from: '{% include ''cf-image'' with image: collection.metafields.custom_fields["bundle_image"]
+    %}'
+  to: "{% include 'cf-image' with image, image: collection.metafields.custom_fields.bundle_image
+    %}"
+  position: 1165..1257
+{% endcomment %}

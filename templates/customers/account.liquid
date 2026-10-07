@@ -100,7 +100,7 @@
           </a>
         {% else %}
           <a href="{{ routes.account_addresses_url }}" class="button-secondary reorder">
-            {{ 'customers.account.view_addresses' | t, count: customer.addresses_count }}
+            {{ 'customers.account.view_addresses' | t: count: customer.addresses_count }}
           </a>
         {% endif %}
       </p>
@@ -118,3 +118,15 @@
  
   {% section 'static-recently-viewed' %}
 </section>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{{ 'customers.account.view_addresses' | t, count: customer.addresses_count
+    }}"
+  to: "{{ 'customers.account.view_addresses' | t: count: customer.addresses_count
+    }}"
+  position: 3500..3577
+{% endcomment %}
